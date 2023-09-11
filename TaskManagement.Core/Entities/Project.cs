@@ -9,7 +9,7 @@ namespace TaskManagement.Core.Entities
 {
     public class Project
     {
-        public int ProjectId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

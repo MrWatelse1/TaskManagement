@@ -10,7 +10,7 @@ namespace TaskManagement.Core.Entities
 {
     public class Notification
     {
-        public int NotificationId { get; set; }
+        public int Id { get; set; }
 
         [EnumDataType(typeof(NotificationType))]
         public NotificationType Type { get; set; }

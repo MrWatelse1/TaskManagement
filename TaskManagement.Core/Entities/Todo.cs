@@ -10,7 +10,7 @@ namespace TaskManagement.Core.Entities
 {
     public class Todo
     {
-        public int TodoId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Title { get; set; }
