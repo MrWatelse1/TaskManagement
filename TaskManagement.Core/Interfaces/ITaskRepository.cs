@@ -13,6 +13,6 @@ namespace TaskManagement.Core.Interfaces
         Task<Todo> GetTask(int id);
         Task<Todo> AddTask(Todo todo);
         Task<Todo> UpdateTask(Todo todo);
-        Task DeleteTask(Todo todo);
+        Task <bool> DeleteTask(Todo todo);
     }
 }

@@ -24,10 +24,10 @@ namespace TaskManagement.Infrastructure.Repositories
             return result.Entity;
         }
 
-        public async Task DeleteTask(Todo todo)
+        public async Task<bool> DeleteTask(Todo todo)
         {
-            _context.Todos.Remove(todo);
-            await _context.SaveChangesAsync();
+                _context.Todos.Remove(todo);
+                return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<Todo> GetTask(int id)

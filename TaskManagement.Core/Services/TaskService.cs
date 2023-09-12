@@ -16,7 +16,7 @@ namespace TaskManagement.Core.Services
         Task<Todo> GetTask(int id);
         Task<Todo> AddTask(Todo todo);
         Task<Todo> UpdateTask(int id, Todo todo);
-        Task DeleteTask(int id);
+        Task<bool> DeleteTask(int id);
     }
     public class TaskService : ITaskService
     {
@@ -44,12 +44,13 @@ namespace TaskManagement.Core.Services
             return response;
         }
 
-        public async Task DeleteTask(int id)
+        public async Task<bool> DeleteTask(int id)
         {
             var taskExists = await _taskRepository.GetTask(id);
             if (taskExists == null) throw new Exception("Task Does not Exist");
 
-            await _taskRepository.DeleteTask(taskExists);
+             var response = await _taskRepository.DeleteTask(taskExists);
+            return response;
         }
 
         public async Task<Todo> GetTask(int id)
