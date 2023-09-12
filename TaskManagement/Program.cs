@@ -4,6 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TaskManagement.Core.Helpers;
+using TaskManagement.Core.Interfaces;
+using TaskManagement.Core.Services;
+using TaskManagement.Infrastructure;
 using TaskManagement.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,6 +78,11 @@ builder.Services.AddSwaggerGen(c =>
          }
     });
 });
+
+
+builder.Services.AddScoped<IUserService, UserService>();     
+builder.Services.AddTransient<IJWTAuthenticationManager, JWTAuthenticationManager>(); 
+builder.Services.AddTransient<IUserRepository, UserRepository>();   
 
 var app = builder.Build();
 

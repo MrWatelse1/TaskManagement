@@ -10,16 +10,13 @@ namespace TaskManagement.Core.Entities
     public class User
     {
         public int Id { get; set; }
-
-        [Required]
-        public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        public List<Todo> Todos { get; set; } = new List<Todo>();
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? PasswordHash { get; set; }
+        public string? PasswordSalt { get; set; }
+        public DateTimeOffset? CreatedDate { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
+        public string? Email { get; set; }
+        public List<Todo>? Todos { get; set; } = new List<Todo>();
     }
 }
