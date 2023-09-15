@@ -17,6 +17,7 @@ namespace TaskManagement.Core.Services
     {
         Task<UserDTO> CreateUserAsync(Register register);
         Task<UserDTO> AuthenticateUserAsync(Login login);
+        Task<UserDTO> GetUserByEmail(string email);
     }
     public class UserService : IUserService
     {
@@ -69,6 +70,10 @@ namespace TaskManagement.Core.Services
             mappedUser.Token = await _jWTAuthenticationManager.GetTokenAsync(login.Email);
 
             return mappedUser;
+        }
+        public async Task<UserDTO> GetUserByEmail(string email)
+        {
+            return _mapper.Map<UserDTO>(await _userRepository.GetUserByEmail(email));
         }
     }
 }

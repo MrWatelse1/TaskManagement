@@ -81,8 +81,15 @@ builder.Services.AddSwaggerGen(c =>
 
 
 builder.Services.AddScoped<IUserService, UserService>();     
+builder.Services.AddScoped<ITaskService, TaskService>();     
+builder.Services.AddScoped<IProjectService, ProjectService>();     
+builder.Services.AddScoped<INotificationService, NotificationService>();     
 builder.Services.AddTransient<IJWTAuthenticationManager, JWTAuthenticationManager>(); 
 builder.Services.AddTransient<IUserRepository, UserRepository>();   
+builder.Services.AddTransient<ITaskRepository, TaskRepository>();   
+builder.Services.AddTransient<IProjectRepository, ProjectRepository>();   
+builder.Services.AddTransient<INotificationRepository, NotificationRepository>();   
+
 
 var app = builder.Build();
 

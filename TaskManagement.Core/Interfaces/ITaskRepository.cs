@@ -11,7 +11,7 @@ namespace TaskManagement.Core.Interfaces
     {
         IQueryable<Todo> GetTasks();
         Task<Todo> GetTask(int id);
-        Task<Todo> AddTask(Todo todo);
+        Task AddTask(Todo todo);
         Task<Todo> UpdateTask(Todo todo);
         Task <bool> DeleteTask(Todo todo);
     }

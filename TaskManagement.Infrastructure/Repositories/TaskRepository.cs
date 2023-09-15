@@ -17,11 +17,10 @@ namespace TaskManagement.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Todo> AddTask(Todo todo)
+        public async Task AddTask(Todo todo)
         {
-            var result = await _context.Todos.AddAsync(todo);
+            await _context.Todos.AddAsync(todo);
             await _context.SaveChangesAsync();
-            return result.Entity;
         }
 
         public async Task<bool> DeleteTask(Todo todo)

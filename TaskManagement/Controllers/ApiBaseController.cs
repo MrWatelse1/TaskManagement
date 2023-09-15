@@ -8,7 +8,7 @@ namespace TaskManagement.Controllers
     [ApiController]
     public class ApiBaseController : ControllerBase
     {
-        [HttpGet("user")]
+        [HttpGet("User")]
         public string GetAuthUserEmail()
         {
             //return email
