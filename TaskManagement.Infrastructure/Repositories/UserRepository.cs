@@ -6,9 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskManagement.Core.Entities;
 using TaskManagement.Core.Interfaces;
-using TaskManagement.Infrastructure.Repositories;
 
-namespace TaskManagement.Infrastructure
+namespace TaskManagement.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -20,9 +19,9 @@ namespace TaskManagement.Infrastructure
 
         public async Task<User> AddUser(User user)
         {
-                var result = await _context.Users.AddAsync(user);
-                await _context.SaveChangesAsync();
-                return result.Entity;
+            var result = await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
 
         public async Task DeleteUser(User user)

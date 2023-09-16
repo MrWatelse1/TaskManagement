@@ -26,6 +26,6 @@ namespace TaskManagement.Core.Entities
         public User User { get; set; }
         public int ProjectId { get; set; }
         public Project Project { get; set; }
-        public List<Notification> Notifications { get; set; } = new List<Notification>();
+        public List<Notification> Notifications { get; set; }
     }
 }

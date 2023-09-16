@@ -20,27 +20,14 @@ namespace TaskManagement.Controllers
             }
 
             [HttpGet]
-            [Route("GetAllProjects")]
-            public async Task<IActionResult> GetAllProjects()
-            {
-                try
-                {
-                    var projects = await _projectService.AllProjects();
-                    return Ok(projects);
-            }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, $"Internal Server Error: {ex.Message}");
-                }
-            }
-
-            [HttpGet]
             [Route("GetProjectById")]
+            [AllowAnonymous]
             public async Task<IActionResult> GetProjectById(int id)
             {
                 try
                 {
                     var project = await _projectService.GetProject(id);
+
                     if (project == null)
                     {
                         return NotFound();
@@ -53,58 +40,83 @@ namespace TaskManagement.Controllers
                 }
             }
 
+            [HttpGet("GetAllProjects")]
+            [AllowAnonymous]
+            public async Task<IActionResult> GetAllProjects()
+            {
+                try
+                {
+                    // Fetch projects and include todos, and project into DTOs
+                    var projectDtos = await _projectService.AllProjects();
+
+                    return Ok(projectDtos);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"Internal Server Error: {ex.Message}");
+                }
+            }
+
             [HttpPost] 
             [Route("CreateProject")]
+            [AllowAnonymous]
             public async Task<IActionResult> CreateProject([FromBody] ProjectDTO project)
-                {
-                    try
                     {
-                        var createdProject = await _projectService.AddProject(project);
-                        return CreatedAtAction(nameof(GetProjectById), new { id = createdProject.Id }, createdProject);
+                        try
+                        {
+                            var createdProject = await _projectService.AddProject(project);
+                            return CreatedAtAction(nameof(GetProjectById), new { id = createdProject.Id }, createdProject);
+                        }
+                        catch (Exception ex)
+                        {
+                            return StatusCode(500, $"Internal Server Error: {ex.Message}");
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-                    }
-                }
 
             [HttpPut]
             [Route("UpdateProject")]
+            [AllowAnonymous]
             public async Task<IActionResult> UpdateProject(int id, [FromBody] ProjectDTO project)
-                {
-                    try
                     {
-                        var updatedProject = await _projectService.UpdateProject(id, project);
-                        if (updatedProject == null)
+                        try
                         {
+                            var updatedProject = await _projectService.UpdateProject(id, project);
+                            if (updatedProject == null)
+                            {
+                                return NotFound();
+                            }
+                            return Ok(updatedProject);
+                        }
+                        catch (Exception ex)
+                        {
+                            return StatusCode(500, $"Internal Server Error: {ex.Message}");
+                        }
+                    }
+
+           [HttpDelete]
+           [Route("DeleteProject")]
+            [AllowAnonymous]
+            public async Task<IActionResult> DeleteProject(int id)
+                    {
+                        try
+                        {
+                            var result = await _projectService.DeleteProject(id);
+                            if (result)
+                            {
+                                return NoContent();
+                            }
                             return NotFound();
                         }
-                        return Ok(updatedProject);
-                    }
-                    catch (Exception ex)
-                    {
-                        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-                    }
-                }
-
-            [HttpDelete]
-            [Route("DeleteProject")]
-            public async Task<IActionResult> DeleteProject(int id)
-                {
-                    try
-                    {
-                        var result = await _projectService.DeleteProject(id);
-                        if (result)
+                        catch (Exception ex)
                         {
-                            return NoContent();
+                            return StatusCode(500, $"Internal Server Error: {ex.Message}");
                         }
-                        return NotFound();
                     }
-                    catch (Exception ex)
-                    {
-                        return StatusCode(500, $"Internal Server Error: {ex.Message}");
-                    }
-                }
-            }
+
+
+
     }
+
+ 
+}
 

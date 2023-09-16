@@ -14,7 +14,7 @@ namespace TaskManagement.Core.Services
 {
     public interface ITaskService
     {
-        Task<GetTaskDTO> AllTasks();
+        Task<List<Todo>> AllTasks();
         Task<Todo> GetTask(int id);
         Task AddTask(int userId, TaskDTO todo);
         Task<Todo> UpdateTask(int id, TaskDTO todo);
@@ -49,15 +49,12 @@ namespace TaskManagement.Core.Services
             await _taskRepository.AddTask(mappedTask);
         }
 
-        public async Task<GetTaskDTO> AllTasks()
+        public async Task<List<Todo>> AllTasks()
         {
-            var response = await _taskRepository.GetTasks()
-                .Include(c => c.Project)
-                .Include(c => c.User)
-                .Include(c => c.Notifications).ToListAsync();
+            var response = await _taskRepository.GetTasks().ToListAsync();
 
-            var taskDto = _mapper.Map<GetTaskDTO>(response);
-            return taskDto;
+            //var taskDto = _mapper.Map<GetTaskDTO>(response);
+            return response;
         }
 
         public async Task<bool> DeleteTask(int id)

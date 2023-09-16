@@ -18,6 +18,7 @@ namespace TaskManagement.Core.Services
         Task<UserDTO> CreateUserAsync(Register register);
         Task<UserDTO> AuthenticateUserAsync(Login login);
         Task<UserDTO> GetUserByEmail(string email);
+        Task DeleteUser(long id);
     }
     public class UserService : IUserService
     {
@@ -74,6 +75,13 @@ namespace TaskManagement.Core.Services
         public async Task<UserDTO> GetUserByEmail(string email)
         {
             return _mapper.Map<UserDTO>(await _userRepository.GetUserByEmail(email));
+        }
+        public async Task DeleteUser(long id)
+        {
+            var userExists = await _userRepository.GetUser(id);
+            if (userExists == null) throw new Exception("User Does not Exist");
+
+            await _userRepository.DeleteUser(userExists);
         }
     }
 }

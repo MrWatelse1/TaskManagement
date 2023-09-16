@@ -55,5 +55,14 @@ namespace TaskManagement.Controllers
             }
 
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(long id)
+        {
+            await _userService.DeleteUser(id);
+            return Ok();
+        }
+
+
     }
 }

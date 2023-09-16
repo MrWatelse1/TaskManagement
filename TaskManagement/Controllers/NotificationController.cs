@@ -34,7 +34,6 @@ namespace TaskManagement.Controllers
 
         [HttpGet]
         [Route("GetAllNotifications")]
-        [Authorize]
         public async Task<IActionResult> GetAllNotifications()
         {
             try

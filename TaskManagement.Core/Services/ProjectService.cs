@@ -13,11 +13,11 @@ namespace TaskManagement.Core.Services
 {
     public interface IProjectService
     {
-        Task<GetProjectDTO> AllProjects();
         Task<Project> GetProject(int id);
         Task<Project> AddProject(ProjectDTO project);
         Task<Project> UpdateProject(int id, ProjectDTO project);
         Task<bool> DeleteProject(int id);
+        Task<List<ProjectDto>> AllProjects();
     }
     public class ProjectService : IProjectService
     {
@@ -43,12 +43,35 @@ namespace TaskManagement.Core.Services
             return result;
         }
 
-        public async Task<GetProjectDTO> AllProjects()
+        public async Task<List<ProjectDto>> AllProjects()
         {
-            var response = await _projectRepository.GetProjects().ToListAsync();
+            // Use Include to load todos related to projects
+            var projects = await _projectRepository.GetProjects()
+                .Include(p => p.Todos)
+                .ToListAsync();
 
-            var projectsDto = _mapper.Map<GetProjectDTO>(response);
-            return projectsDto;
+            // Project the entities into DTOs
+            var projectDtos = projects.Select(p => new ProjectDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                CreatedDate = p.CreatedDate,
+                ModifiedDate = p.ModifiedDate,
+                Todos = p.Todos.Select(t => new TodoDto
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    ModifiedDate = t.ModifiedDate,
+                    CreatedDate = t.CreatedDate,
+                    DueDate = t.DueDate,
+                    Priority = t.Priority,
+                    Status = t.Status
+                }).ToList()
+            }).ToList();
+
+            return projectDtos;
         }
 
         public async Task<bool> DeleteProject(int id)
@@ -65,6 +88,7 @@ namespace TaskManagement.Core.Services
         {
 
             return await _projectRepository.GetProject(id);
+
         }
 
         public async Task<Project> UpdateProject(int id, ProjectDTO project)
@@ -80,5 +104,7 @@ namespace TaskManagement.Core.Services
             var result = await _projectRepository.UpdateProject(projectExists);
             return result;
         }
+
+
     }
 }

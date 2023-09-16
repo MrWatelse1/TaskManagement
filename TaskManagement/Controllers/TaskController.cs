@@ -123,7 +123,7 @@ namespace TaskManagement.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetTasksByStatus")]
         public async Task<IActionResult> GetTasksByStatus([FromBody] FetchStatus fetchStatus)
         {

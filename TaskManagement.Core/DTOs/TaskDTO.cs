@@ -34,4 +34,16 @@ namespace TaskManagement.Core.DTOs
         public string Project { get; set; }
         public List<Notification> Notifications { get; set; }
     }
+
+    public class TodoDto
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? DueDate { get; set; }
+        public Priority Priority { get; set; }
+        public Status Status { get; set; }
+    }
 }
