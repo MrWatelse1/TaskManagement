@@ -21,7 +21,6 @@ namespace TaskManagement.Controllers
 
             [HttpGet]
             [Route("GetProjectById")]
-            [AllowAnonymous]
             public async Task<IActionResult> GetProjectById(int id)
             {
                 try
@@ -41,7 +40,6 @@ namespace TaskManagement.Controllers
             }
 
             [HttpGet("GetAllProjects")]
-            [AllowAnonymous]
             public async Task<IActionResult> GetAllProjects()
             {
                 try
@@ -59,7 +57,6 @@ namespace TaskManagement.Controllers
 
             [HttpPost] 
             [Route("CreateProject")]
-            [AllowAnonymous]
             public async Task<IActionResult> CreateProject([FromBody] ProjectDTO project)
                     {
                         try
@@ -75,7 +72,6 @@ namespace TaskManagement.Controllers
 
             [HttpPut]
             [Route("UpdateProject")]
-            [AllowAnonymous]
             public async Task<IActionResult> UpdateProject(int id, [FromBody] ProjectDTO project)
                     {
                         try
@@ -95,7 +91,6 @@ namespace TaskManagement.Controllers
 
            [HttpDelete]
            [Route("DeleteProject")]
-            [AllowAnonymous]
             public async Task<IActionResult> DeleteProject(int id)
                     {
                         try

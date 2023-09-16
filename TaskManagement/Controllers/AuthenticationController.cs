@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TaskManagement.Core.DTOs;
 using TaskManagement.Core.Entities.Requests;
 using TaskManagement.Core.Helpers;
 using TaskManagement.Core.Services;
@@ -64,5 +65,22 @@ namespace TaskManagement.Controllers
         }
 
 
+        [HttpPut("updateUser")]
+        public async Task<IActionResult> UpdateUser(long id, [FromForm] UpdateUser user)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(new { ResponseCode = ResponseCodes.InvalidRequest });
+
+                var result = await _userService.UpdateUser(id, user);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ResponseCodes = ResponseCodes.UnexpectedError, ResponseDescription = $"User Update failed: {ex.Message}" });
+            }
+        }
     }
 }

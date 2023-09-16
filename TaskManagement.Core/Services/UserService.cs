@@ -19,6 +19,7 @@ namespace TaskManagement.Core.Services
         Task<UserDTO> AuthenticateUserAsync(Login login);
         Task<UserDTO> GetUserByEmail(string email);
         Task DeleteUser(long id);
+        Task<UpdateUserDTO> UpdateUser(long id, UpdateUser user);
     }
     public class UserService : IUserService
     {
@@ -82,6 +83,28 @@ namespace TaskManagement.Core.Services
             if (userExists == null) throw new Exception("User Does not Exist");
 
             await _userRepository.DeleteUser(userExists);
+        }
+        public async Task<UpdateUserDTO> UpdateUser(long id, UpdateUser user)
+        {
+            _logger.LogInformation("fetching user with {id}", id);
+            var userExist = await _userRepository.GetUser(id);
+
+            if (userExist == null) throw new Exception("User does not exist");
+
+            _logger.LogInformation("Attempting user update for user {id}", id);
+            user.FirstName = user.FirstName.Trim() ?? "";
+            user.LastName = user.LastName.Trim() ?? "";
+            user.Email = user.Email.Trim() ?? "";
+
+
+            userExist.FirstName = user.FirstName;
+            userExist.LastName = user.LastName;
+            userExist.Email = user.Email;
+
+            var result = await _userRepository.UpdateUser(userExist);
+
+            var mappedResult = _mapper.Map<UpdateUserDTO>(result);
+            return mappedResult;
         }
     }
 }

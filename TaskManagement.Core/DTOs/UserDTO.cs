@@ -12,4 +12,18 @@ namespace TaskManagement.Core.DTOs
         public string? Email { get; set; }
         public string? Token { get; set; }
     }
+    public class UpdateUser
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+    }
+
+    public class UpdateUserDTO
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
+    }
 }
